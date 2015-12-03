@@ -36,7 +36,7 @@ texture::texture(render_device& in_device)
     if (0 == _gl_object_id) {
         state().set(object_state::OS_BAD);
     }
-
+    
     gl_assert(glapi, leaving texture::texture());
 }
 
