@@ -7,6 +7,8 @@
 #include <scm/gl_core/math.h>
 #include <scm/gl_core/primitives/ray.h>
 
+#include <iostream>
+
 namespace scm {
 namespace gl {
 
@@ -40,6 +42,8 @@ void
     _projection_plane = 1.0f / scm::math::tan(scm::math::deg2rad(fovy * 0.5f));
     _projection_projection_screen_matrix = math::make_perspective_matrix(fovy, aspect, _projection_plane, _projection_plane * 2.0f);
 
+    std::cout << "fovy: " << fovy << " dplane: " << _projection_plane << std::endl;
+    
     update();
 }
 
@@ -169,7 +173,7 @@ void
     camera::update()
 {
     using namespace scm::math;
-
+    
     //_projection_matrix;
     _projection_matrix_inverse = inverse(_projection_matrix);
 

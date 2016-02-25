@@ -37,11 +37,11 @@ void main()
 	uint m = (1u << 8u) - 1u;
     uint c = atomicCounterIncrement(frag_count) + 1;
 
-	out_color.rgb = vec3(float((c & (m <<  0u)) % 255u) / 255.0,
+	/*out_color.rgb = vec3(float((c & (m <<  0u)) % 255u) / 255.0,
 		                 float((c & (m <<  8u)) % 255u) / 255.0,
 		                 float((c & (m << 16u)) % 255u) / 5.0);
-
-    //out_color.rgb = vec3(float(c) / (screen_res.x * screen_res.y * 2.0));
+*/
+    out_color.rgb = vec3(float(c) / (screen_res.x * screen_res.y));
     out_color.a   = 1.0;
 
 #else

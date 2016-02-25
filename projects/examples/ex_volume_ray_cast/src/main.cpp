@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 #include <scm/core/utilities/boost_warning_disable.h>
 #include <boost/program_options.hpp>
@@ -71,6 +72,24 @@ static scm::module::static_initializer  static_initialize(init_module);
 
 int main(int argc, char **argv)
 {
+
+    std::wstring line;
+    std::wifstream myfile("signals_tmp.txt");
+    if (myfile.is_open())
+    {
+        while (myfile.good())
+        {
+            std::getline(myfile, line);
+            std::cout << line.c_str() << std::endl;
+        }
+        myfile.close();
+    }
+
+    else std::cout << "Unable to open file";
+
+    std::cout << " Press button" << std::endl;
+    getchar();
+    return 0;
     // some standard things to turn off
     std::ios_base::sync_with_stdio(false);
 
