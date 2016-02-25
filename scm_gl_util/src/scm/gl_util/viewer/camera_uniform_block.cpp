@@ -67,9 +67,8 @@ _uniform_block.begin_manipulation(context); {
     _uniform_block->_ws_view_port_size = context->current_viewports().viewports()[0]._dimensions;
     _uniform_block->_ws_position = cam.position();
     _uniform_block->_ws_near_plane = cam.view_frustum().get_plane(frustum::near_plane).vector();
-    //_uniform_block->_ws_projection_plane         = math::vec4(cam.near_plane(), cam.projection_plane(), 0.0, 0.0);
     _uniform_block->_ws_projection_plane = cam.view_screen_frustum().get_plane(frustum::near_plane).vector();
-    _uniform_block->_ws_projection_plane.z = cam.projection_plane();
+    //_uniform_block->_ws_projection_plane.z = cam.projection_plane();
     _uniform_block->_p_matrix = cam.projection_matrix();
     _uniform_block->_p_matrix_inverse = cam.projection_matrix_inverse();
     _uniform_block->_v_matrix = cam.view_matrix();
@@ -79,9 +78,6 @@ _uniform_block.begin_manipulation(context); {
     _uniform_block->_vp_matrix_inverse = cam.view_projection_matrix_inverse();
 } _uniform_block.end_manipulation();
 
-//std::cout << std::endl;
-//std::cout << "_ws_projection_plane: " << _uniform_block->_ws_projection_plane << " _ws_near_plane: " << _uniform_block->_ws_near_plane << " _ws_position " << _uniform_block->_ws_position << std::endl;
-//std::cout  << std::endl;
 
 }
 

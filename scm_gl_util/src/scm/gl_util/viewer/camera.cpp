@@ -38,12 +38,10 @@ void
     _type = camera::perspective;
     _projection_matrix = math::make_perspective_matrix(fovy, aspect, near_z, far_z);
 
-    // Distance to projection plane
+    // Distance to projection plane WRONG missing resolution parameter
     _projection_plane = 1.0f / scm::math::tan(scm::math::deg2rad(fovy * 0.5f));
     _projection_projection_screen_matrix = math::make_perspective_matrix(fovy, aspect, _projection_plane, _projection_plane * 2.0f);
 
-    std::cout << "fovy: " << fovy << " dplane: " << _projection_plane << std::endl;
-    
     update();
 }
 
@@ -156,6 +154,22 @@ const frustumf&
     return (_view_frustum);
 }
 
+
+void
+camera::set_view_screen_frustum(scm::math::vec2ui screen_dimensions)
+{
+    //_field_of_view = fovy;
+    //_aspect_ratio = aspect;
+    //_near_plane = near_z;
+    //_far_plane = far_z;
+    //_type = camera::perspective;
+    //_projection_matrix = math::make_perspective_matrix(fovy, aspect, near_z, far_z);
+
+    _projection_plane = (float(screen_dimensions.y * 0.5f)) / scm::math::tan(scm::math::deg2rad(_field_of_view * 0.5f));
+    _projection_projection_screen_matrix = math::make_perspective_matrix(_field_of_view, _aspect_ratio, _projection_plane, _projection_plane * 2.0f);
+
+}
+
 const frustumf&
     camera::view_screen_frustum() const
 {
@@ -173,19 +187,20 @@ void
     camera::update()
 {
     using namespace scm::math;
-    
+
     //_projection_matrix;
     _projection_matrix_inverse = inverse(_projection_matrix);
 
     // _view_matrix;
-    _view_matrix_inverse = inverse(_view_matrix);
+    _view_matrix_inverse           = inverse(_view_matrix);
     _view_matrix_inverse_transpose = transpose(_view_matrix_inverse);
 
-    _view_projection_matrix = _projection_matrix * _view_matrix;
+    _view_projection_matrix         = _projection_matrix * _view_matrix;
     _view_projection_matrix_inverse = inverse(_view_projection_matrix);
 
     _view_frustum.update(_view_projection_matrix);
     _view_proj_frustum.update(_projection_projection_screen_matrix * _view_matrix);
+    
 }
 
 float

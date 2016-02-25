@@ -20,6 +20,7 @@ volume_reader_blocked::volume_reader_blocked(const std::string& file_path,
                                                    bool         file_unbuffered)
   : volume_reader(file_path, file_unbuffered)
   , _data_start_offset(0)
+  , _slice_size(0)
 {
 }
 
@@ -59,7 +60,8 @@ volume_reader_blocked::read(const scm::math::vec3ui& o,
         }
     }
 #if 1
-    else if (o.x == 0 && s.x == _dimensions.x) {
+    //else if (o.x == 0 && s.x == _dimensions.x) {
+    else if (o.x == 0 && s.x > _dimensions.x) {
         // we can read complete sets of lines/traces
         scm::int64 offset_src;
         scm::int64 offset_dst;
@@ -91,11 +93,18 @@ volume_reader_blocked::read(const scm::math::vec3ui& o,
             }
         }
     }
-    else if (o.x == 0 && s.x > _dimensions.x) {
+    //else if (o.x == 0 && s.x > _dimensions.x) {
+    else if (false) {
 
 #else
     else if (o.x == 0 && s.x >= _dimensions.x) {
 #endif
+
+        if (_slice_size == 0){            
+            _slice_size = static_cast<size_t>(_dimensions.x) * _dimensions.y * size_of_format(_format);
+            _slice_buffer.reset(new uint8[_slice_size]);
+        }
+
         // we can read complete sets of lines/traces
         scm::int64 offset_src;
         scm::int64 offset_dst;
@@ -117,6 +126,7 @@ volume_reader_blocked::read(const scm::math::vec3ui& o,
             scm::int64 line_size_raw = data_value_size * read_dim.x;
             scm::int64 read_size     = line_size_raw   * read_dim.y;
 
+            //if (false) {
             if (_file->read(_slice_buffer.get(), read_off, read_size) != read_size) {
                 return false;
             }

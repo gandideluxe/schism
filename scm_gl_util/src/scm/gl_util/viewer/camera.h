@@ -49,6 +49,7 @@ public:
 
     const frustumf&         view_frustum() const;
     const frustumf&         view_screen_frustum() const;
+    void                    set_view_screen_frustum(scm::math::vec2ui screen_dimensions);
 
     float                   field_of_view() const;
     float                   aspect_ratio() const;

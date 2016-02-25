@@ -32,6 +32,7 @@ public:
 protected:
     int64               _data_start_offset;
     shared_array<uint8> _slice_buffer;
+    int64               _slice_size;
 
 }; // struct volume_reader_blocked
 

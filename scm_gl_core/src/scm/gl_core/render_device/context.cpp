@@ -365,7 +365,7 @@ render_context::register_debug_callback(const debug_output_ptr& f)
         gl_assert(glapi, render_context::register_debug_callback() after glDebugMessageCallbackARB());
 
         if (_debug_synchronous_reporting) {
-            glapi.glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+            glapi.glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);            
         }
         else {
             glapi.glDisable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
